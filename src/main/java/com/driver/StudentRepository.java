@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StudentRepository {
 	
-	HashMap<String,Student> studentmap;
+	private HashMap<String,Student> studentmap;
 	
-	HashMap<String,Teacher> teachermap;
+	private HashMap<String,Teacher> teachermap;
 	
-	HashMap<String,List<String>> pairmap;
+	private HashMap<String,List<String>> pairmap;
 
 	public StudentRepository(HashMap<String, Student> studentmap, HashMap<String, Teacher> teachermap,
 			HashMap<String, List<String>> pairmap) {
@@ -24,7 +24,6 @@ public class StudentRepository {
 		this.pairmap = new HashMap<String,List<String>>();
 		
 	}
-
 	public void addStudent(Student student) {
 		// TODO Auto-generated method stub
 		studentmap.put(student.getName(), student);
