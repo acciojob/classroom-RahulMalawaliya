@@ -13,51 +13,51 @@ public class StudentService {
 
 	public void addStudent(Student student) {
 		// TODO Auto-generated method stub
-		res.addStudent(student);
+		res.addingStudentToDB(student);
 	}
 
 	public void addTeacher(Teacher teacher) {
 		// TODO Auto-generated method stub
-		res.addTeacher(teacher);
+		res.addingTeacherToDB(teacher);
 		
 	}
 
 	public void addStudentTeacherPair(String student, String teacher) {
 		// TODO Auto-generated method stub
-		res.addStudentTeacherPair(student,teacher);
+		res.addingStudentTeacherPairToDB(student,teacher);
 		
 	}
 
 	public Student getStudentByName(String name) {
 		// TODO Auto-generated method stub
 		
-		return res.getStudentByName(name);
+		return res.gettingStudentByNameFromDB(name);
 	}
 
 	public Teacher getTeacherByName(String name) {
 		// TODO Auto-generated method stub
-		return res.getTeacherByName(name);
+		return res.gettingTeacherByNameFromDB(name);
 	}
 
 	public List<String> getAllStudents() {
 		// TODO Auto-generated method stub
-		return res.getAllStudents();
+		return res.gettingAllStudentsFromDB();
 	}
 
 	public List<String> getStudentsByTeacherName(String teacher) {
 		// TODO Auto-generated method stub
-		return res.getStudentsByTeacherName(teacher);
+		return res.gettingStudentsByTeacherNameFromDB(teacher);
 	}
 
 	public void deleteTeacherByName(String teacher) {
 		// TODO Auto-generated method stub
-		res.deleteTeacherByName(teacher);
+		res.deletingTeacherByNameFromDB(teacher);
 		
 	}
 
 	public void deleteAllTeachers() {
 		// TODO Auto-generated method stub
-		res.deleteAllTeachers();
+		res.deletingAllTeachersFromDB();
 		
 	}
 	

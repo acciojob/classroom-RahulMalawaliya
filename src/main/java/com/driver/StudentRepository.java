@@ -1,95 +1,88 @@
 package com.driver;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
-
-import org.springframework.stereotype.Repository;
+import java.util.Objects;
 
 @Repository
+@Component
 public class StudentRepository {
-	
-	private HashMap<String,Student> studentmap;
-	
-	private HashMap<String,Teacher> teachermap;
-	
-	private HashMap<String,List<String>> pairmap;
+    HashMap<String,Student> studentHashMap=new HashMap<>();
+    HashMap<Teacher, List<String>> teacherHashMap=new HashMap<>();
+    public void addingStudentToDB(Student student) {
+        studentHashMap.put(student.getName(),student);
+    }
 
-	public StudentRepository(HashMap<String, Student> studentmap, HashMap<String, Teacher> teachermap,
-			HashMap<String, List<String>> pairmap) {
-		super();
-		this.studentmap = new HashMap<String,Student>();
-		this.teachermap = new HashMap<String,Teacher>();
-		this.pairmap = new HashMap<String,List<String>>();
-		
-	}
-	public void addStudent(Student student) {
-		// TODO Auto-generated method stub
-		studentmap.put(student.getName(), student);
-		
-	}
+    public void addingTeacherToDB(Teacher teacher) {
+        List<String> list=new ArrayList<>();
+        teacherHashMap.put(teacher,list);
+    }
 
-	public void addTeacher(Teacher teacher) {
-		// TODO Auto-generated method stub
-		teachermap.put(teacher.getName(), teacher);
-		
-	}
+    public void addingStudentTeacherPairToDB(String student, String teacher) {
+        for(Teacher teacher1:teacherHashMap.keySet()){
+            if(Objects.equals(teacher,teacher1.getName())){
+                List<String> list;
+                list=teacherHashMap.get(teacher1);
+                list.add(student);
+                //teacher1.setNumberOfStudents(teacher1.getNumberOfStudents()+1);
+                teacherHashMap.put(teacher1,list);
+                return;
+            }
+        }
+    }
 
-	public void addStudentTeacherPair(String student, String teacher) {
-		// TODO Auto-generated method stub
-		if(studentmap.containsKey(student) && teachermap.containsKey(teacher))
-		{
-			List<String> liststudent=new ArrayList<>();
-			if(pairmap.containsKey(teacher))
-			{
-				liststudent=pairmap.get(teacher);
-				liststudent.add(student);
-				
-				pairmap.put(teacher, liststudent);
-			}
-		}
-		
-	}
+    public Student gettingStudentByNameFromDB(String name) {
+        return studentHashMap.get(name);
+    }
 
-	public Student getStudentByName(String name) {
-		// TODO Auto-generated method stub
-		return studentmap.get(name);
-	}
+    public Teacher gettingTeacherByNameFromDB(String name) {
+        for (Teacher teacher:teacherHashMap.keySet()){
+            if (Objects.equals(name,teacher.getName())){
+                return teacher;
+            }
+        }
+        return null;
+    }
 
-	public Teacher getTeacherByName(String name) {
-		// TODO Auto-generated method stub
-		return teachermap.get(name);
-	}
+    public List<String> gettingStudentsByTeacherNameFromDB(String teacher) {
+        for(Teacher teacher1:teacherHashMap.keySet()){
+            if(Objects.equals(teacher,teacher1.getName())){
+                return teacherHashMap.get(teacher1);
+            }
+        }
+        return null;
+    }
 
-	public List<String> getAllStudents() {
-		// TODO Auto-generated method stub
-		List<String> studentname=new ArrayList<>();
-		for(Entry<String, Student> Entry : studentmap.entrySet())
-		{
-			studentname.add(Entry.getKey());
-		}
-		return studentname;
-	}
+    public List<String> gettingAllStudentsFromDB() {
+        List<String> list=new ArrayList<>();
+        list.addAll(studentHashMap.keySet());
+        return list;
+    }
+//need to check this
+    public void deletingTeacherByNameFromDB(String teacher) {
+        for (Teacher teacher1:teacherHashMap.keySet()){
+            if(Objects.equals(teacher,teacher1.getName())){
+                List<String> temp=teacherHashMap.get(teacher1);
+                for(String str:temp){
+                    studentHashMap.remove(str);
+                }
+                teacherHashMap.remove(teacher1);
+                return;
+            }
+        }
+    }
 
-	public List<String> getStudentsByTeacherName(String teacher) {
-		// TODO Auto-generated method stub
-		return pairmap.get(teacher);
-	}
-
-	public void deleteTeacherByName(String teacher) {
-		// TODO Auto-generated method stub
-		teachermap.remove(teacher);
-		
-	}
-
-	public void deleteAllTeachers() {
-		// TODO Auto-generated method stub
-		teachermap.clear();
-		
-	}
-	
-	
-	
-
+    public void deletingAllTeachersFromDB() {
+        for (List<String> str:teacherHashMap.values()){
+            List<String> temp=str;
+            for(String str1:temp){
+                studentHashMap.remove(str1);
+            }
+        }
+        teacherHashMap.clear();
+    }
 }
